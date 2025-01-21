@@ -1,0 +1,69 @@
+{
+  "user": {
+    "_id": "test",
+    "username": "test",
+    "name": "test",
+    "password": "test",
+    "phone": "984984",
+    "email": "test",
+    "business": [
+      {
+        "_id": "test",
+        "name": "test",
+        "address": "test",
+        "description": "test",
+        "creator": "_id",
+        "owner": [
+          {
+            "_id": "test"
+          },
+          {
+            "_id": "test2"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+{
+  "sales": {
+    "_id": "test",
+    "income": [
+      {
+        "name": "product a",
+        "qty": 7,
+        "price": 700000
+      },
+      {
+        "name": "product B",
+        "qty": 10,
+        "price": 300000
+      },
+    ]
+  }
+}
+
+{
+  "income": {
+    "_id": "test",
+    "saleDate": "2025-01-01",
+    "sale": [
+      {
+        "name": "test",
+        "qty": "test",
+        "sellingPrice": 123,
+        "hpp": 123,
+      }
+    ]
+  }
+}
+
+
+{
+  "period": {
+    "_id": "test",
+    "startDate": "date",
+    "endDate": "date"
+  }
+}
