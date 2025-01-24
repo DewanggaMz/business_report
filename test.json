@@ -1,69 +1,129 @@
-{
-  "user": {
-    "_id": "test",
-    "username": "test",
-    "name": "test",
-    "password": "test",
-    "phone": "984984",
-    "email": "test",
-    "business": [
-      {
-        "_id": "test",
-        "name": "test",
-        "address": "test",
-        "description": "test",
-        "creator": "_id",
-        "owner": [
-          {
-            "_id": "test"
-          },
-          {
-            "_id": "test2"
-          }
-        ]
-      }
-    ]
-  }
-}
-
-{
-  "sales": {
-    "_id": "test",
-    "income": [
-      {
-        "name": "product a",
-        "qty": 7,
-        "price": 700000
-      },
-      {
-        "name": "product B",
-        "qty": 10,
-        "price": 300000
-      },
-    ]
-  }
-}
-
-{
-  "income": {
-    "_id": "test",
-    "saleDate": "2025-01-01",
-    "sale": [
-      {
-        "name": "test",
-        "qty": "test",
-        "sellingPrice": 123,
-        "hpp": 123,
-      }
-    ]
-  }
-}
-
-
-{
-  "period": {
-    "_id": "test",
-    "startDate": "date",
-    "endDate": "date"
-  }
-}
+// {
+//   "user": [
+//     {
+//       "id": 1,
+//       "name": "John",
+//       "username": "johndoe",
+//       "email": "nHwvD@example.com",
+//       "phone": "1234567890",
+//       "password": "123456",
+//       "businesses": [
+//         {
+//           "id": 1,
+//           "name": "Business 1",
+//           "address": "Address 1",
+//           "owners": [
+//             {
+//               "id": 1,
+//               "name": "John Doe",
+//               "email": "nHwvD@example.com"
+//             },
+//             {
+//               "id": 2,
+//               "name": "Jane Doe",
+//               "email": "nHwvD@example.com"
+//             }
+//           ]
+//         }
+//       ]
+//     }
+//   ],
+//   "sales": [
+//     {
+//       "id": 1,
+//       "date": "2022-01-01",
+//       "name": "pvc",
+//       "quantity": 10,
+//       "price": 100,
+//       "total": 1000
+//     },
+//     {
+//       "id": 2,
+//       "date": "2022-01-01",
+//       "name": "akrilik",
+//       "quantity": 10,
+//       "price": 100,
+//       "total": 1000
+//     },
+//     {
+//       "id": 2,
+//       "date": "2022-01-02",
+//       "name": "akrilik",
+//       "quantity": 20,
+//       "price": 100,
+//       "total": 2000
+//     }
+//   ],
+//   "product": [
+//     {
+//       "id": 1,
+//       "date": "2022-01-01",
+//       "name": "pvc",
+//       "price": 200,
+//       "material": "pvc 2mm",
+//       "hpp": 100
+//     }
+//   ]
+// }
+// {
+//   "income_statement": [
+//     {
+//       "id": 1,
+//       "date": "2022-01-01",
+//     }
+//   ]
+// }
+// {
+//   "reports": [
+//     {
+//       "id": 1,
+//       "name": "sales revenue",
+//       "date": "2022-01-01",
+//       "value": 50000000
+//     },
+//     {
+//       "id": 2,
+//       "name": "cogs",
+//       "date": "2022-01-01",
+//       "value": 10000000
+//     },
+//     {
+//       "id": 3,
+//       "name": "gross profit",
+//       "date": "2022-01-01",
+//       "value": 40000000
+//     },
+//     {
+//       "id": 4,
+//       "name": "operating expenses",
+//       "date": "2022-01-01",
+//       "value": 10000000
+//     },
+//     {
+//       "id": 5,
+//       "name": "operating profit",
+//       "date": "2022-01-01",
+//       "value": 30000000
+//     },
+//     {
+//       "id": 6,
+//       "name": "interest expenses",
+//       "date": "2022-01-01",
+//       "value": 1000000
+//     },
+//     {
+//       "id": 7,
+//       "name": "net income",
+//       "date": "2022-01-01",
+//       "value": 29000000
+//     }
+//   ]
+// }
+// {
+//   "income_statement": [
+//     {
+//       "id": 1,
+//       "date": "2022-01-01",
+//     }
+//   ]
+// }

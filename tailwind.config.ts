@@ -29,6 +29,10 @@ export default {
 				card: "var(--card)",
 				acent2: "var(--acent2)",
 				acent3: "var(--acent3)",
+				accent4: "var(--accent4)",
+				card2: "var(--card2)",
+
+				textCard2: "var(--text-card2)",
 			},
 		},
 	},

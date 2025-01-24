@@ -1,0 +1,35 @@
+sales revenue  = 30000000
+cogs = 10000000
+gross profit = sales revenue - cogs
+operating expenses = 10000000
+operating profit = gross profit - operating expenses
+interest expenses = 1000000 (optional)
+tax = 150000 (optional)
+net profit = operating profit - interest expenses - tax
+
+
+
+
+model Financials {
+  id                 Int      @id @default(autoincrement())
+  salesRevenue       Int
+  cogs               Int
+  grossProfit        Int      @default(0)
+  operatingExpenses  Int
+  operatingProfit    Int      @default(0)
+  interestExpenses   Int?     @default(0)
+  tax                Int?     @default(0)
+  netProfit          Int      @default(0)
+
+  @default([])       @@map("financials")
+
+  @@afterSave(() => {
+    const grossProfit = this.salesRevenue - this.cogs;
+    this.operatingProfit ? grossProfit.alight(Interestd);}
+}
+
+
+model Financials {
+  id                 Int      @id @default(autoincrement())
+  name               String
+}

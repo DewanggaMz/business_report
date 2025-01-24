@@ -12,8 +12,22 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import Navbar from "@/components/ui/Navbar"
+import { usePathname } from "next/navigation"
 
-export function SidebarDemo({ children }: { children: React.ReactNode }) {
+export const FilterSidebar = ({ children }: { children: React.ReactNode }) => {
+	const pathname = usePathname()
+	const DISABLE_PATH = ["/login", "/register"]
+
+	const disableSidebar = React.useMemo(
+		() => DISABLE_PATH.includes(pathname),
+		[pathname]
+	)
+	return (
+		<>{disableSidebar ? children : <SidebarLayout>{children}</SidebarLayout>}</>
+	)
+}
+
+export function SidebarLayout({ children }: { children: React.ReactNode }) {
 	const links = [
 		{
 			label: "Home",
@@ -67,7 +81,7 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
 							))}
 						</div>
 					</div>
-					<div>
+					{/* <div>
 						<SidebarLink
 							link={{
 								label: "Manu Arora",
@@ -83,7 +97,7 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
 								),
 							}}
 						/>
-					</div>
+					</div> */}
 				</SidebarBody>
 				<Dashboard>{children}</Dashboard>
 			</Sidebar>
@@ -123,7 +137,9 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
 		<div className="flex flex-1">
 			<div className="border border-neutral-300 dark:border-neutral-700 bg-foreground w-full h-full">
 				<Navbar />
-				{children}
+				<div className="bg-secondary rounded-lg h-[90vh] overflow-y-scroll custom-scrollbar space-y-4 p-4 pb-8 md:p-4  justify-between">
+					{children}
+				</div>
 			</div>
 		</div>
 	)

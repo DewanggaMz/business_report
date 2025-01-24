@@ -9,7 +9,6 @@ const ThemeContext = createContext({
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 	const [theme, setTheme] = useState("light")
 
-	// Sync dengan localStorage
 	useEffect(() => {
 		const storedTheme = localStorage.getItem("theme") || "light"
 		setTheme(storedTheme)

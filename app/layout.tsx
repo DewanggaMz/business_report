@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
-import { SidebarDemo } from "./SidebarLayout"
+import { FilterSidebar } from "../components/ui/SidebarLayout"
 import { ThemeProvider } from "@/components/theme/ThemeContex"
+import SessionProviderWrapper from "@/components/SessionProviderWrapper"
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -29,9 +30,11 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased light`}
 			>
-				<ThemeProvider>
-					<SidebarDemo>{children}</SidebarDemo>
-				</ThemeProvider>
+				<SessionProviderWrapper>
+					<ThemeProvider>
+						<FilterSidebar>{children}</FilterSidebar>
+					</ThemeProvider>
+				</SessionProviderWrapper>
 			</body>
 		</html>
 	)
