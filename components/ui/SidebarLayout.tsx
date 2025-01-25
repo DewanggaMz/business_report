@@ -9,10 +9,11 @@ import {
 } from "@tabler/icons-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import Image from "next/image"
 import { cn } from "@/lib/utils"
-import Navbar from "@/components/ui/Navbar"
+import Navbar from "@/components/ui/Navbar/Navbar"
 import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
+import Modal from "./Modal/Modal"
 
 export const FilterSidebar = ({ children }: { children: React.ReactNode }) => {
 	const pathname = usePathname()
@@ -28,10 +29,10 @@ export const FilterSidebar = ({ children }: { children: React.ReactNode }) => {
 }
 
 export function SidebarLayout({ children }: { children: React.ReactNode }) {
-	const links = [
+	const linksAfterLogin = [
 		{
 			label: "Home",
-			href: "#",
+			href: "/",
 			icon: (
 				<IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
 			),
@@ -50,15 +51,11 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
 				<IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
 			),
 		},
-		{
-			label: "Logout",
-			href: "#",
-			icon: (
-				<IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-			),
-		},
 	]
+
 	const [open, setOpen] = useState(false)
+	const { status } = useSession()
+
 	return (
 		<div
 			className={cn(
@@ -76,9 +73,13 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
 					>
 						{open ? <Logo /> : <LogoIcon />}
 						<div className="mt-8 flex flex-col gap-2">
-							{links.map((link, idx) => (
-								<SidebarLink key={idx} link={link} />
-							))}
+							{status === "authenticated" ? (
+								linksAfterLogin.map((link, idx) => (
+									<SidebarLink key={idx} link={link} />
+								))
+							) : (
+								<SidebarLink link={linksAfterLogin[0]} />
+							)}
 						</div>
 					</div>
 					{/* <div>
@@ -108,7 +109,7 @@ export const Logo = () => {
 	return (
 		<Link
 			href="#"
-			className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+			className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20 px-4"
 		>
 			<div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
 			<motion.span
@@ -125,7 +126,7 @@ export const LogoIcon = () => {
 	return (
 		<Link
 			href="#"
-			className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+			className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20 px-4"
 		>
 			<div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
 		</Link>
@@ -137,7 +138,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
 		<div className="flex flex-1">
 			<div className="border border-neutral-300 dark:border-neutral-700 bg-foreground w-full h-full">
 				<Navbar />
-				<div className="bg-secondary rounded-lg h-[90vh] overflow-y-scroll custom-scrollbar space-y-4 p-4 pb-8 md:p-4  justify-between">
+				<div className="bg-secondary rounded-lg h-[100vh] overflow-y-scroll custom-scrollbar space-y-4 p-4 pb-8 md:p-4  justify-between">
 					{children}
 				</div>
 			</div>

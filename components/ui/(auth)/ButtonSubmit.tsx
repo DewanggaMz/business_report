@@ -2,7 +2,7 @@
 import { Button } from "@/components/Fragments/Buttons"
 import { useFormStatus } from "react-dom"
 
-const ButtonSubmit = ({ children }: { children: React.ReactNode }) => {
+export const ButtonSubmit = ({ children }: { children: React.ReactNode }) => {
 	const { pending } = useFormStatus()
 	return (
 		<Button type="submit" className="w-2/5" disabled={pending}>
@@ -11,4 +11,16 @@ const ButtonSubmit = ({ children }: { children: React.ReactNode }) => {
 	)
 }
 
-export default ButtonSubmit
+export const ButtonSubmitLogin = ({
+	children,
+	status,
+}: {
+	children: React.ReactNode
+	status: boolean
+}) => {
+	return (
+		<Button type="submit" className="w-2/5" disabled={status}>
+			{children}
+		</Button>
+	)
+}

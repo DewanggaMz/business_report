@@ -9,6 +9,11 @@ import bcrypt from "bcrypt"
 const handler = NextAuth({
 	debug: true,
 	adapter: PrismaAdapter(prismaClient),
+	session: {
+		strategy: "jwt",
+		maxAge: 7 * 24 * 60 * 60,
+	},
+	secret: process.env.NEXTAUTH_SECRET,
 	providers: [
 		CredentialsProvider({
 			type: "credentials",
@@ -43,7 +48,12 @@ const handler = NextAuth({
 					return null
 				}
 
-				return user
+				return {
+					id: user.id,
+					name: user.name,
+					email: user.email,
+					image: user.image,
+				}
 			},
 		}),
 	],
@@ -53,21 +63,33 @@ const handler = NextAuth({
 	callbacks: {
 		async jwt({ token, account, profile, user }) {
 			if (account?.provider === "credentials") {
-				token.email = user.email
+				token.id = user.id
 				token.name = user.name
 			}
 			return token
 		},
 
-		async session({ session, token, user }) {
-			console.log(session, token, user)
+		async redirect({ url, baseUrl }) {
+			console.log({ url })
+			console.log({ baseUrl })
+			return baseUrl
+		},
+
+		async session({
+			session,
+			token,
+			user,
+		}: {
+			session: any
+			token: any
+			user: any
+		}) {
+			if ("id" in token && session.user) {
+				session.user.id = token.id
+			}
 			return session
 		},
 	},
-	session: {
-		strategy: "jwt",
-	},
-	secret: process.env.NEXTAUTH_SECRET,
 })
 
 export { handler as GET, handler as POST }

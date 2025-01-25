@@ -1,12 +1,12 @@
 "use client"
-import { Input } from "@/components/Fragments/Input"
+import { Input, InputLabel } from "@/components/Fragments/Input"
 import { Label } from "@/components/Fragments/Label"
 import { Separator } from "@/components/Fragments/Separator"
 import { registerUserCredentials } from "@/lib/service/users.service"
 import Link from "next/link"
 import React, { useActionState, useEffect, useState } from "react"
 import InputPassword from "./InputPassword"
-import ButtonSubmit from "./ButtonSubmit"
+import { ButtonSubmit } from "./ButtonSubmit"
 
 const FormRegister = () => {
 	const [state, formAction] = useActionState(registerUserCredentials, null)
@@ -18,8 +18,6 @@ const FormRegister = () => {
 		password: "",
 		confirmPassword: "",
 	})
-
-	console.log(state)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -47,47 +45,47 @@ const FormRegister = () => {
 			)}
 			<form action={formAction} className="space-y-4">
 				<div className="flex flex-col space-y-1">
-					<Label htmlFor="fullname">Full Name</Label>
-					<Input
+					<InputLabel
 						type="text"
 						name="fullname"
+						label="Full Name"
 						id="fullname"
-						value={formValues.fullname}
 						onChange={handleChange}
+						value={formValues.fullname}
 					/>
+					{/* <Input onChange={} /> */}
 					<span className="text-red-500 text-sm">{state?.error.fullname}</span>
 				</div>
 				<div className="flex flex-col space-y-1">
-					<Label htmlFor="username">Username</Label>
-					<Input
+					<InputLabel
 						type="text"
 						name="username"
+						label="Username"
 						id="username"
-						value={formValues.username}
 						onChange={handleChange}
+						value={formValues.username}
 					/>
 					<span className="text-red-500 text-sm">{state?.error.username}</span>
 				</div>
 				<div className="flex flex-col space-y-1">
-					<Label htmlFor="email">Email</Label>
-					<Input
+					<InputLabel
 						type="email"
 						name="email"
+						label="Email"
 						id="email"
-						value={formValues.email}
 						onChange={handleChange}
+						value={formValues.email}
 					/>
 					<span className="text-red-500 text-sm">{state?.error.email}</span>
 				</div>
 				<div className="flex flex-col space-y-1">
-					<Label htmlFor="phone">Phone</Label>
-					<Input
+					<InputLabel
 						type="number"
 						name="phone"
+						label="Phone"
 						id="phone"
 						onChange={handleChange}
 						value={formValues.phone}
-						className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [moz-appearance:textfield]"
 					/>
 					<span className="text-red-500 text-sm">{state?.error.phone}</span>
 				</div>
