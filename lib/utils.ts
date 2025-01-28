@@ -1,4 +1,5 @@
 import { ClassValue, clsx } from "clsx"
+import { NextResponse } from "next/server"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -20,4 +21,55 @@ export const capitalName = (name: string): string => {
 		.map((word) => word.charAt(0).toUpperCase())
 		.slice(0, 2)
 		.join("")
+}
+
+export const getLast12Months = (currentMonth: number, currentYear: number) => {
+	const months = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"Mei",
+		"Jun",
+		"Jul",
+		"Ags",
+		"Sep",
+		"Okt",
+		"Nov",
+		"Des",
+	]
+	let result = []
+
+	for (let i = 0; i < 12; i++) {
+		const monthIndex = (currentMonth - 1 - i + 12) % 12
+		const year = currentYear - Math.ceil((i - currentMonth + 1) / 12)
+		const splitYear = year.toString().slice(-2)
+		result.push(`${months[monthIndex]} ${splitYear}`)
+	}
+
+	return result.reverse()
+}
+
+export const response = ({
+	data,
+	status,
+	message,
+	error,
+}: {
+	data?: any
+	status: number
+	message?: string
+	error?: any
+}) => {
+	return NextResponse.json(
+		{
+			data: data,
+			message,
+			status,
+			error,
+		},
+		{
+			status: status,
+		}
+	)
 }

@@ -5,7 +5,7 @@ import { UserValidation } from "../validation/users.validation"
 import bcrypt from "bcrypt"
 import { Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
-import { signIn } from "next-auth/react"
+
 
 export const registerUserCredentials = async (
 	prevState: unknown,

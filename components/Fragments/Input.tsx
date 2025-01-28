@@ -32,14 +32,19 @@ Input.displayName = "Input"
 interface InputLabelProps extends InputHTMLAttributes<HTMLInputElement> {
 	id: string
 	label: string
+	messageError?: string
+	withError?: boolean
 }
 
 export const InputLabel = React.forwardRef<HTMLInputElement, InputLabelProps>(
-	({ id, label, ...props }, ref) => {
+	({ id, label, messageError, withError, ...props }, ref) => {
 		return (
 			<div className="flex flex-col space-y-1">
 				<Label htmlFor={id}>{label}</Label>
 				<Input id={id} ref={ref} {...props} />
+				{withError && (
+					<span className="text-red-500 text-sm">{messageError}</span>
+				)}
 			</div>
 		)
 	}

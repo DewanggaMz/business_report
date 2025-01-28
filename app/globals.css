@@ -35,7 +35,9 @@
     --card2: #303030;
     --text-card2: #262626;
   }
+
 }
+
 
 @layer utilities {
   .custom-scrollbar {

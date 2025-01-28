@@ -4,6 +4,7 @@ import "./globals.css"
 import { FilterSidebar } from "../components/ui/SidebarLayout"
 import { ThemeProvider } from "@/components/theme/ThemeContex"
 import SessionProviderWrapper from "@/components/SessionProviderWrapper"
+import { ToastContainer } from "react-toastify"
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
 				<SessionProviderWrapper>
 					<ThemeProvider>
 						<FilterSidebar>{children}</FilterSidebar>
+						<ToastContainer />
 					</ThemeProvider>
 				</SessionProviderWrapper>
 			</body>
