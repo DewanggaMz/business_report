@@ -1,8 +1,7 @@
 "use client"
-import { Input, InputLabel } from "@/components/Fragments/Input"
-import { Label } from "@/components/Fragments/Label"
+import { InputLabel } from "@/components/Fragments/Input"
 import { Separator } from "@/components/Fragments/Separator"
-import { registerUserCredentials } from "@/lib/service/users.service"
+import { registerUserCredentials } from "@/lib/actions/users.action"
 import Link from "next/link"
 import React, { useActionState, useEffect, useState } from "react"
 import InputPassword from "./InputPassword"
@@ -52,9 +51,9 @@ const FormRegister = () => {
 						id="fullname"
 						onChange={handleChange}
 						value={formValues.fullname}
+						required
 					/>
-					{/* <Input onChange={} /> */}
-					<span className="text-red-500 text-sm">{state?.error.fullname}</span>
+					<span className="text-red-500 text-sm">{state?.error?.fullname}</span>
 				</div>
 				<div className="flex flex-col space-y-1">
 					<InputLabel
@@ -64,8 +63,9 @@ const FormRegister = () => {
 						id="username"
 						onChange={handleChange}
 						value={formValues.username}
+						required
 					/>
-					<span className="text-red-500 text-sm">{state?.error.username}</span>
+					<span className="text-red-500 text-sm">{state?.error?.username}</span>
 				</div>
 				<div className="flex flex-col space-y-1">
 					<InputLabel
@@ -75,8 +75,9 @@ const FormRegister = () => {
 						id="email"
 						onChange={handleChange}
 						value={formValues.email}
+						required
 					/>
-					<span className="text-red-500 text-sm">{state?.error.email}</span>
+					<span className="text-red-500 text-sm">{state?.error?.email}</span>
 				</div>
 				<div className="flex flex-col space-y-1">
 					<InputLabel
@@ -87,7 +88,7 @@ const FormRegister = () => {
 						onChange={handleChange}
 						value={formValues.phone}
 					/>
-					<span className="text-red-500 text-sm">{state?.error.phone}</span>
+					<span className="text-red-500 text-sm">{state?.error?.phone}</span>
 				</div>
 				<div>
 					<div className="flex items-center justify-between gap-4">
@@ -105,7 +106,7 @@ const FormRegister = () => {
 						/>
 					</div>
 					<span className="text-red-500 text-sm">
-						{state?.error.confirmPassword}
+						{state?.error?.confirmPassword}
 					</span>
 				</div>
 

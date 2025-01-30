@@ -13,13 +13,12 @@ export const ButtonSubmit = ({ children }: { children: React.ReactNode }) => {
 
 export const ButtonSubmitLogin = ({
 	children,
-	status,
 }: {
 	children: React.ReactNode
-	status: boolean
 }) => {
+	const { pending } = useFormStatus()
 	return (
-		<Button type="submit" className="w-2/5" disabled={status}>
+		<Button type="submit" className="w-2/5" disabled={pending}>
 			{children}
 		</Button>
 	)

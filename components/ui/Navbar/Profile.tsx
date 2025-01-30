@@ -1,4 +1,3 @@
-"use client"
 import { capitalName } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar"
 import {
@@ -12,9 +11,9 @@ import {
 } from "../DropdownMenu"
 import React from "react"
 import { Button } from "@/components/Fragments/Buttons"
-import { signOut, useSession } from "next-auth/react"
-import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { ButtonLogout } from "./ButtonLogout"
+import { getSession } from "@/lib/getSession"
 
 type UserType = {
 	name?: string | null | undefined
@@ -22,12 +21,13 @@ type UserType = {
 	image?: string | null | undefined
 }
 
-const Profile = () => {
-	const { data, status } = useSession()
+export const Profile = async () => {
+	const session = await getSession()
+
 	return (
 		<>
-			{status === "authenticated" ? (
-				<ProfileUser user={data.user} />
+			{session?.user ? (
+				<ProfileUser user={session?.user} />
 			) : (
 				<Button asChild={true}>
 					<Link href="/login">Login</Link>
@@ -43,10 +43,6 @@ const ProfileUser = ({ user }: { user: UserType | undefined }) => {
 	}
 	const names = capitalName(user.name)
 
-	const handleLogout = async () => {
-		await signOut({ redirect: false })
-	}
-
 	return (
 		<div className="flex items-center gap-2 text-sm">
 			<DropdownMenu>
@@ -59,18 +55,7 @@ const ProfileUser = ({ user }: { user: UserType | undefined }) => {
 				<DropdownMenuContent className="w-56">
 					<DropdownMenuLabel>My Account</DropdownMenuLabel>
 					<DropdownMenuSeparator />
-					<Button
-						variant={"ghost"}
-						onClick={handleLogout}
-						className="w-full p-0"
-					>
-						<DropdownMenuItem className="w-full">
-							Logout
-							<DropdownMenuShortcut>
-								<ArrowRight size={14} />
-							</DropdownMenuShortcut>
-						</DropdownMenuItem>
-					</Button>
+					<ButtonLogout/>
 				</DropdownMenuContent>
 			</DropdownMenu>
 			<span>{user?.name}</span>
@@ -78,4 +63,4 @@ const ProfileUser = ({ user }: { user: UserType | undefined }) => {
 	)
 }
 
-export default Profile
+/* prettier-ignore */

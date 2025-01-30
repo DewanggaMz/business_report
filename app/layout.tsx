@@ -1,10 +1,9 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
-import { FilterSidebar } from "../components/ui/SidebarLayout"
-import { ThemeProvider } from "@/components/theme/ThemeContex"
-import SessionProviderWrapper from "@/components/SessionProviderWrapper"
 import { ToastContainer } from "react-toastify"
+import ProviderWrapper from "@/components/Provider/ProviderWrapper"
+import { FilterSidebar } from "@/components/ui/Sidebar/FilterSidebar"
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -31,12 +30,10 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased light`}
 			>
-				<SessionProviderWrapper>
-					<ThemeProvider>
-						<FilterSidebar>{children}</FilterSidebar>
-						<ToastContainer />
-					</ThemeProvider>
-				</SessionProviderWrapper>
+				<ProviderWrapper>
+					{children}
+					<ToastContainer />
+				</ProviderWrapper>
 			</body>
 		</html>
 	)

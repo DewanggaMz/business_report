@@ -120,6 +120,9 @@ const FormNewBusiness = ({
 			})
 
 			const data = await res.json()
+
+			console.log(data)
+
 			if (!res.ok) {
 				setState(data)
 				notify({
@@ -130,9 +133,10 @@ const FormNewBusiness = ({
 
 				return
 			}
+
 			notify({
 				type: "success",
-				message: "Business created successfully",
+				message: data.message,
 			})
 
 			setIsOpen(false)

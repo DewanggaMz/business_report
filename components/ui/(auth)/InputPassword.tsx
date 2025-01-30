@@ -29,6 +29,7 @@ const InputPassword = ({
 					className="pr-10"
 					value={value}
 					onChange={onChange}
+					required
 				/>
 				<Button
 					variant={"ghost"}

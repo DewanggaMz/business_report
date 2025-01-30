@@ -2,10 +2,11 @@
 import { prismaClient } from "@/lib/database/prismaClient"
 import { Validation } from "@/lib/validation/validate"
 import { UserValidation } from "../validation/users.validation"
-import bcrypt from "bcrypt"
 import { Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
-
+import { hashSync } from "bcrypt-ts"
+import { signIn } from "@/auth"
+import { AuthError } from "next-auth"
 
 export const registerUserCredentials = async (
 	prevState: unknown,
@@ -39,7 +40,7 @@ export const registerUserCredentials = async (
 	}
 
 	try {
-		const hashedPassword = await bcrypt.hash(password, 14)
+		const hashedPassword = hashSync(password, 14)
 
 		await prismaClient.user.create({
 			data: {
@@ -62,17 +63,13 @@ export const registerUserCredentials = async (
 				const target = (error.meta as any)?.target
 				if (target?.includes("email")) {
 					return {
-						error: {
-							email: ["Email already exists"],
-						},
+						message: ["Email already exists"],
 						values: formDataObject,
 					}
 				}
 				if (target?.includes("username")) {
 					return {
-						error: {
-							username: ["Username already exists"],
-						},
+						message: ["Username already exists"],
 						values: formDataObject,
 					}
 				}
@@ -87,49 +84,47 @@ export const registerUserCredentials = async (
 	redirect("/login")
 }
 
-// export const loginUserCredentials = async (
-// 	prevState: unknown,
-// 	formData: FormData
-// ) => {
-// 	const formDataObject = Object.fromEntries(
-// 		formData.entries() as Iterable<[string, string]>
-// 	)
-// 	const validateFields = Validation.validate(
-// 		UserValidation.LOGIN,
-// 		formDataObject
-// 	)
+export const loginUserCredentials = async (
+	prevState: unknown,
+	formData: FormData
+) => {
+	const formDataObject = Object.fromEntries(
+		formData.entries() as Iterable<[string, string]>
+	)
+	const validateFields = Validation.validate(
+		UserValidation.LOGIN,
+		formDataObject
+	)
 
-// 	if (!validateFields.success) {
-// 		return {
-// 			error: validateFields.error.flatten().fieldErrors,
-// 			values: validateFields.data,
-// 		}
-// 	}
+	if (!validateFields.success) {
+		return {
+			error: validateFields.error.flatten().fieldErrors,
+			values: validateFields.data,
+		}
+	}
 
-// 	const { email, password } = validateFields.data
-// 	console.log({ email, password })
+	const { email, password } = validateFields.data
 
-// 	try {
-// 		const response = await signIn("credentials", {
-// 			email,
-// 			password,
-// 			redirectTo: "/",
-// 		})
-// 		if (!response?.ok) {
-// 			switch (response?.error) {
-// 				case "CredentialsSignin":
-// 					console.log("CredentialsSignin")
-// 					return {
-// 						message:
-// 							"Invalid credentials. Please check your email and password.",
-// 					}
-// 				default:
-// 					return {
-// 						message: "An unexpected error occurred. Please try again later.",
-// 					}
-// 			}
-// 		}
-// 	} catch (error) {
-// 		throw error
-// 	}
-// }
+	try {
+		const res = await signIn("credentials", {
+			email,
+			password,
+			redirectTo: "/dashboard",
+		})
+		console.log(res)
+	} catch (error) {
+		if (error instanceof AuthError) {
+			switch (error.type) {
+				case "CredentialsSignin":
+					return {
+						message: "Email or password is incorrect",
+					}
+				default:
+					return {
+						message: "An unexpected error occurred",
+					}
+			}
+		}
+		throw error
+	}
+}

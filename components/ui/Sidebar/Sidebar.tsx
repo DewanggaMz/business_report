@@ -10,7 +10,6 @@ import React, {
 } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { IconMenu2, IconX } from "@tabler/icons-react"
-import { s } from "framer-motion/client"
 
 interface Links {
 	label: string
@@ -73,20 +72,12 @@ export const SidebarProvider = ({
 
 export const Sidebar = ({
 	children,
-	open,
-	setOpen,
 	animate,
 }: {
 	children: React.ReactNode
-	open?: boolean
-	setOpen?: React.Dispatch<React.SetStateAction<boolean>>
 	animate?: boolean
 }) => {
-	return (
-		<SidebarProvider open={open} setOpen={setOpen} animate={animate}>
-			{children}
-		</SidebarProvider>
-	)
+	return <SidebarProvider animate={animate}>{children}</SidebarProvider>
 }
 
 export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {

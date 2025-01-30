@@ -1,7 +1,7 @@
 import React from "react"
 import ToggleTheme from "@/components/theme/ToggleTheme"
 import ToggleSidebar from "./ToggleSidebar"
-import Profile from "./Profile"
+import { Profile } from "./Profile"
 
 const Navbar = () => {
 	return (

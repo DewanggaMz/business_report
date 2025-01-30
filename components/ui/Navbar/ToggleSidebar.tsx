@@ -1,5 +1,5 @@
 "use client"
-import { useSidebar } from "../Sidebar"
+import { useSidebar } from "../Sidebar/Sidebar"
 import { Button } from "@/components/Fragments/Buttons"
 import { GiHamburgerMenu } from "react-icons/gi"
 
