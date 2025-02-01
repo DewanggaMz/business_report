@@ -1,14 +1,16 @@
 import { capitalName } from "@/lib/utils"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar"
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+} from "@/components/Fragments/Avatar"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
-	DropdownMenuShortcut,
 	DropdownMenuTrigger,
-} from "../DropdownMenu"
+} from "../../Fragments/DropdownMenu"
 import React from "react"
 import { Button } from "@/components/Fragments/Buttons"
 import Link from "next/link"

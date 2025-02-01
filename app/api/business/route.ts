@@ -1,4 +1,3 @@
-import { response } from "@/lib/utils"
 import { BusinessValidation } from "@/lib/validation/business.validation"
 import { Validation } from "@/lib/validation/validate"
 import { NextRequest, NextResponse } from "next/server"
@@ -22,13 +21,11 @@ export async function POST(request: NextRequest) {
 				}
 			)
 		}
-		const result = await BusinessService.addBusiness({ reqBody: reqBody })
+		const res = await BusinessService.addBusiness({
+			reqBody: validateFields.data,
+		})
 
-		console.log(result)
-
-		return NextResponse.json(
-			successResponse(validateFields.data, "Business added successfully")
-		)
+		return res
 	} catch (error) {
 		if (error instanceof ResponseError) {
 			return NextResponse.json(errorResponse(error.message), {

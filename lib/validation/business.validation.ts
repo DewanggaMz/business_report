@@ -13,6 +13,7 @@ export class BusinessValidation {
 		description: z
 			.string()
 			.max(200, "Description must be at most 200 characters"),
+		creatorId: z.string(),
 		owners: z.array(
 			z.object({
 				owner: z.string().min(3, "Owner name must be at least 3 characters"),

@@ -10,6 +10,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	adapter: PrismaAdapter(prismaClient),
 	session: {
 		strategy: "jwt",
+		maxAge: 7 * 24 * 60 * 60,
+		updateAge: 24 * 60 * 60,
 	},
 	pages: {
 		signIn: "/login",
@@ -53,6 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				return {
 					id: user.id,
 					name: user.name,
+					username: user.username,
 					email: user.email,
 					image: user.image,
 				}
@@ -74,8 +77,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 			return true
 		},
-		// async redirect({ url, baseUrl }) {
-		// 	return baseUrl
-		// },
+
+		jwt: async ({ token, account, profile, user }) => {
+			// console.log("JWT Token:", token)
+			return token
+		},
+		session: async ({ session, token, user }) => {
+			session.user.id = token.sub
+			// if ("username" in token && session.user) {
+			// }
+			return session
+		},
 	},
 })

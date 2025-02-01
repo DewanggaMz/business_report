@@ -1,7 +1,7 @@
 // "use client"
 import Navbar from "@/components/ui/Navbar/Navbar"
-import { Business } from "@/components/view/Home/Business"
-import BusinessHeader from "@/components/view/Home/BusinessHeader"
+import { Business } from "@/components/view/Dashboard/Business"
+import BusinessHeader from "@/components/view/Dashboard/BusinessHeader"
 // import { getSession } from "next-auth/react"
 // import { useEffect } from "react"
 
@@ -21,7 +21,7 @@ export default function Home() {
 	return (
 		<div className="">
 			<Navbar />
-			<BusinessHeader />
+			{/* <BusinessHeader /> */}
 			<h1>Home</h1>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{/* <Business data={dataBusiness} /> */}

@@ -111,7 +111,6 @@ export const loginUserCredentials = async (
 			password,
 			redirectTo: "/dashboard",
 		})
-		console.log(res)
 	} catch (error) {
 		if (error instanceof AuthError) {
 			switch (error.type) {
@@ -121,7 +120,7 @@ export const loginUserCredentials = async (
 					}
 				default:
 					return {
-						message: "An unexpected error occurred",
+						message: "Email or password is incorrect",
 					}
 			}
 		}

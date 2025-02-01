@@ -2,7 +2,10 @@
 
 import { Button } from "@/components/Fragments/Buttons"
 import { signOut } from "next-auth/react"
-import { DropdownMenuItem, DropdownMenuShortcut } from "../DropdownMenu"
+import {
+	DropdownMenuItem,
+	DropdownMenuShortcut,
+} from "../../Fragments/DropdownMenu"
 import { ArrowRight } from "lucide-react"
 
 export const ButtonLogout = () => {

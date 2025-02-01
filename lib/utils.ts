@@ -49,27 +49,3 @@ export const getLast12Months = (currentMonth: number, currentYear: number) => {
 
 	return result.reverse()
 }
-
-export const response = ({
-	data,
-	status,
-	message,
-	error,
-}: {
-	data?: any
-	status: number
-	message?: string
-	error?: any
-}) => {
-	return NextResponse.json(
-		{
-			data: data,
-			message,
-			status,
-			error,
-		},
-		{
-			status: status,
-		}
-	)
-}

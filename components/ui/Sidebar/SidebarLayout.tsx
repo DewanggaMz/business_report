@@ -5,9 +5,9 @@ import {
 	IconUserBolt,
 } from "@tabler/icons-react"
 import { cn } from "@/lib/utils"
-import { WrapperLayout } from "../Wrapper/WrapperLayout"
 import { SidebarHeader } from "./SidebarHeader"
 import { getSession } from "@/lib/getSession"
+import Navbar from "../Navbar/Navbar"
 
 export async function SidebarLayout({
 	children,
@@ -65,7 +65,14 @@ export async function SidebarLayout({
 					</div>
 				</div>
 			</SidebarBody>
-			<WrapperLayout>{children}</WrapperLayout>
+			<div className="flex flex-1">
+				<div className="border border-neutral-300 dark:border-neutral-700 bg-foreground w-full h-full">
+					<Navbar sidebar />
+					<div className="bg-secondary rounded-lg h-[100vh] overflow-y-scroll custom-scrollbar space-y-4 p-4 pb-8 md:p-4  justify-between">
+						{children}
+					</div>
+				</div>
+			</div>
 		</div>
 	)
 }

@@ -2,21 +2,15 @@
 import { Button } from "@/components/Fragments/Buttons"
 import { Separator } from "@/components/Fragments/Separator"
 import Modal from "@/components/ui/Modal/Modal"
-import { signIn, useSession } from "next-auth/react"
 import FormNewBusiness from "./FormNewBusiness"
 import { ArrowLeftToLine } from "lucide-react"
 import { useState } from "react"
 
 export const BusinessHeader = () => {
-	const { data: session } = useSession()
 	const [isOpenModal, setIsOpenModal] = useState(false)
 
 	const handleAddNewBusiness = () => {
-		if (!session) {
-			signIn()
-		} else {
-			setIsOpenModal(true)
-		}
+		setIsOpenModal(true)
 	}
 
 	return (

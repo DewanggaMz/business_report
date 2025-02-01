@@ -1,5 +1,5 @@
 import React from "react"
-import { useSession } from "next-auth/react"
+import { getSession } from "next-auth/react"
 import { useEffect, useMemo, useState } from "react"
 import { InputLabel } from "@/components/Fragments/Input"
 import { Label } from "@/components/Fragments/Label"
@@ -20,8 +20,17 @@ const FormNewBusiness = ({
 }: {
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-	const { data: session } = useSession()
-	const stableSession = useMemo(() => session, [session])
+	const [session, setSession] = useState<any>(null)
+
+	useEffect(() => {
+		const fetchSession = async () => {
+			const session = await getSession()
+			setSession(session)
+		}
+		fetchSession()
+	}, [])
+
+	// const stableSession = useMemo(() => session, [session])
 	const [isLoading, setIsLoading] = useState(false)
 	const [state, setState] = useState<{
 		data?: any
@@ -70,12 +79,12 @@ const FormNewBusiness = ({
 	}
 
 	useEffect(() => {
-		if (!stableSession) return
+		if (!session) return
 		updateOwner({
 			id: 1,
-			owner: stableSession.user?.email || stableSession.user?.name || "",
+			owner: session.user?.email || session.user?.name || "",
 		})
-	}, [stableSession])
+	}, [session])
 
 	const checkDuplicateOwner = owners.reduce((acc: any, item: any) => {
 		acc[item.owner] = (acc[item.owner] || 0) + 1
@@ -102,6 +111,7 @@ const FormNewBusiness = ({
 			name: e.target.name.value,
 			address: e.target.address.value,
 			description: e.target.description.value,
+			creatorId: session?.user?.id,
 			owners: owners.map((owner) => ({
 				owner: owner.owner,
 				initialCapital:
@@ -125,6 +135,12 @@ const FormNewBusiness = ({
 
 			if (!res.ok) {
 				setState(data)
+				Swal.fire({
+					title: "Error!",
+					text: `${data.error}`,
+					icon: "error",
+					confirmButtonText: "OK",
+				})
 				notify({
 					type: "error",
 					message: "Failed to create business",
@@ -158,7 +174,7 @@ const FormNewBusiness = ({
 				name="name"
 				label="Name Business *"
 				placeholder="business"
-				messageError={state?.error.name}
+				messageError={state?.error?.name}
 				required
 				withError
 			/>
@@ -169,7 +185,7 @@ const FormNewBusiness = ({
 				label="Address *"
 				placeholder="Jl. example no. 123"
 				required
-				messageError={state?.error.address}
+				messageError={state?.error?.address}
 				withError
 			/>
 			<TextareaLabel
