@@ -60,7 +60,7 @@ export const registerUserCredentials = async (
 	} catch (error) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === "P2002") {
-				const target = (error.meta as any)?.target
+				const target = (error.meta as { target: string[] })?.target
 				if (target?.includes("email")) {
 					return {
 						message: ["Email already exists"],
@@ -106,7 +106,7 @@ export const loginUserCredentials = async (
 	const { email, password } = validateFields.data
 
 	try {
-		const res = await signIn("credentials", {
+		await signIn("credentials", {
 			email,
 			password,
 			redirectTo: "/dashboard",

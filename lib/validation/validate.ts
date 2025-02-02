@@ -1,7 +1,8 @@
 import { ZodType } from "zod"
 
 export class Validation {
-	static validate<T>(schema: ZodType, data: any): any {
+	//@typescript-eslint/no-explicit-any
+	static validate(schema: ZodType, data: any): any {
 		return schema.safeParse(data)
 	}
 }

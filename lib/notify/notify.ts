@@ -1,7 +1,12 @@
-import { Bounce, toast, ToastTransitionProps } from "react-toastify"
+import {
+	Bounce,
+	toast,
+	ToastPosition,
+	ToastTransitionProps,
+} from "react-toastify"
 
 type Options = {
-	position: any
+	position: ToastPosition | undefined
 	autoClose: number
 	hideProgressBar: boolean
 	closeOnClick: boolean

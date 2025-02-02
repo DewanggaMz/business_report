@@ -1,8 +1,8 @@
-import React from "react"
-import { getSession } from "next-auth/react"
-import { useEffect, useMemo, useState } from "react"
+//@typescript-eslint/no-explicit-any
+"use client"
+import { useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
 import { InputLabel } from "@/components/Fragments/Input"
-import { Label } from "@/components/Fragments/Label"
 import { TextareaLabel } from "@/components/Fragments/Textarea"
 import { Button } from "@/components/Fragments/Buttons"
 import { Separator } from "@/components/Fragments/Separator"
@@ -20,23 +20,10 @@ const FormNewBusiness = ({
 }: {
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-	const [session, setSession] = useState<any>(null)
-
-	useEffect(() => {
-		const fetchSession = async () => {
-			const session = await getSession()
-			setSession(session)
-		}
-		fetchSession()
-	}, [])
-
-	// const stableSession = useMemo(() => session, [session])
+	const { data: session } = useSession()
 	const [isLoading, setIsLoading] = useState(false)
-	const [state, setState] = useState<{
-		data?: any
-		error?: any
-		message: string
-		status: number
+	const [errorValidate, setErrorValidate] = useState<{
+		error: any
 	}>()
 	const [owners, setOwners] = useState<Owner[]>([
 		{
@@ -128,13 +115,10 @@ const FormNewBusiness = ({
 				},
 				body: JSON.stringify(dataForm),
 			})
-
 			const data = await res.json()
 
-			console.log(data)
-
 			if (!res.ok) {
-				setState(data)
+				setErrorValidate(data.error)
 				Swal.fire({
 					title: "Error!",
 					text: `${data.error}`,
@@ -157,11 +141,12 @@ const FormNewBusiness = ({
 
 			setIsOpen(false)
 			setIsLoading(false)
+			window.location.reload()
 		} catch (error) {
 			setIsLoading(false)
 			notify({
 				type: "error",
-				message: "Failed to process request",
+				message: `Failed to create business ${error}`,
 			})
 		}
 	}
@@ -174,7 +159,7 @@ const FormNewBusiness = ({
 				name="name"
 				label="Name Business *"
 				placeholder="business"
-				messageError={state?.error?.name}
+				messageError={errorValidate?.error?.name}
 				required
 				withError
 			/>
@@ -185,7 +170,7 @@ const FormNewBusiness = ({
 				label="Address *"
 				placeholder="Jl. example no. 123"
 				required
-				messageError={state?.error?.address}
+				messageError={errorValidate?.error?.address}
 				withError
 			/>
 			<TextareaLabel
@@ -199,11 +184,8 @@ const FormNewBusiness = ({
 				<div className="space-y-4">
 					{owners.map((owner, index) => (
 						<div key={index}>
-							<Label htmlFor="owners">Owner {index + 1}</Label>
-							<div
-								id="owners"
-								className="bg-card border border-neutral-500 min-h-10 rounded-md p-3 space-y-4"
-							>
+							<span className="text-sm">Owner {index + 1}</span>
+							<div className="bg-card border border-neutral-500 min-h-10 rounded-md p-3 space-y-4">
 								<InputLabel
 									id={`owner-${owner.id}`}
 									type="text"

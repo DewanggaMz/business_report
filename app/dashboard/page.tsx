@@ -1,10 +1,11 @@
-import { Business } from "@/components/view/Dashboard/Business"
 import BusinessHeader from "@/components/view/Dashboard/BusinessHeader"
+import BusinessWrapper from "@/components/view/Dashboard/BusinessWrapper"
 
 const page = () => {
 	return (
-		<div className="">
+		<div className="pb-36">
 			<BusinessHeader />
+			<BusinessWrapper />
 		</div>
 	)
 }

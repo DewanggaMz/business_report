@@ -23,9 +23,10 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  ownerships BusinessOwners[]
+  businesses BusinessOwner[]
   accounts   Account[]
   sessions   Session[]
+  ChangeLog  ChangeLog[]
 
   @@map("users")
 }
@@ -77,23 +78,226 @@ model Business {
   description String
   creatorId   String
 
-  owner BusinessOwners[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owners            BusinessOwner[]
+  Transaction       Transaction[]
+  BalanceSheet      BalanceSheet[]
+  Stock             Stock[]
+  BEPAnalysis       BEPAnalysis[]
+  Monitoring        Monitoring[]
+  ChangeLog         ChangeLog[]
+  ProfitLossReport  ProfitLossReport[]
+  AdditionalExpense AdditionalExpense[]
+  StockTransaction  StockTransaction[]
 
   @@map("businesses")
 }
 
-model BusinessOwners {
-  id             String @id @default(cuid())
-  businessId     String
-  userId         String
-  initialCapital Int
+model BusinessOwner {
+  id         String  @id @default(cuid())
+  businessId String
+  userId     String
+  capital    Decimal
 
   business Business @relation(fields: [businessId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now())
 
   @@unique([userId, businessId])
   @@map("business_owners")
+}
+
+model Transaction {
+  id          Int             @id @default(autoincrement())
+  date        DateTime        @default(now())
+  type        TransactionType
+  amount      Decimal
+  description String?
+  category    Category        @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  business    Business        @relation(fields: [businessId], references: [id])
+  businessId  String
+
+  @@map("transactions")
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model Category {
+  id          String          @id @default(cuid())
+  name        String          @unique
+  type        TransactionType
+  Transaction Transaction[]
+
+  @@map("categories")
+}
+
+model BalanceSheet {
+  id               String      @id @default(cuid())
+  period           String
+  totalAssets      Decimal
+  totalLiabilities Decimal
+  totalEquity      Decimal
+  generatedAt      DateTime    @default(now())
+  businessId       String
+  assets           Asset[]
+  liabilities      Liability[]
+  equities         Equity[]
+
+  business Business @relation(fields: [businessId], references: [id])
+
+  @@map("balance_sheets")
+}
+
+model Asset {
+  id             String       @id @default(cuid())
+  type           AssetType
+  amount         Decimal
+  description    String?
+  balanceSheet   BalanceSheet @relation(fields: [balanceSheetId], references: [id])
+  balanceSheetId String
+
+  @@map("assets")
+}
+
+enum AssetType {
+  CURRENT_ASSET // Aset Lancar (Kas, Piutang, Persediaan)
+  FIXED_ASSET // Aset Tetap (Mesin, Tanah, Bangunan)
+}
+
+model Liability {
+  id             String        @id @default(cuid())
+  type           LiabilityType
+  amount         Decimal
+  description    String?
+  balanceSheet   BalanceSheet  @relation(fields: [balanceSheetId], references: [id])
+  balanceSheetId String
+
+  @@map("liabilities")
+}
+
+enum LiabilityType {
+  SHORT_TERM // Kewajiban Jangka Pendek (Hutang Dagang)
+  LONG_TERM // Kewajiban Jangka Panjang (Pinjaman Bank)
+}
+
+model Equity {
+  id             String       @id @default(cuid())
+  type           EquityType
+  amount         Decimal
+  description    String?
+  balanceSheet   BalanceSheet @relation(fields: [balanceSheetId], references: [id])
+  balanceSheetId String
+
+  @@map("equities")
+}
+
+enum EquityType {
+  OWNER_EQUITY // Modal Pemilik
+  RETAINED_EARNINGS // Laba Ditahan
+}
+
+model ProfitLossReport {
+  id           String   @id @default(cuid())
+  period       String
+  totalIncome  Decimal
+  totalExpense Decimal
+  netProfit    Decimal
+  generatedAt  DateTime @default(now())
+  business     Business @relation(fields: [businessId], references: [id])
+  businessId   String
+
+  @@map("profit_loss_reports")
+}
+
+model AdditionalExpense {
+  id          String   @id @default(cuid())
+  date        DateTime @default(now())
+  amount      Decimal
+  description String?
+  business    Business @relation(fields: [businessId], references: [id])
+  businessId  String
+}
+
+model Stock {
+  id               String             @id @default(cuid())
+  name             String             @unique
+  quantity         Int
+  unitPrice        Decimal
+  lastUpdated      DateTime           @updatedAt
+  business         Business           @relation(fields: [businessId], references: [id])
+  businessId       String
+  StockTransaction StockTransaction[]
+
+  @@map("stocks")
+}
+
+model StockTransaction {
+  id         String               @id @default(cuid())
+  date       DateTime             @default(now())
+  type       StockTransactionType
+  quantity   Int
+  unitPrice  Decimal
+  stock      Stock                @relation(fields: [stockId], references: [id])
+  stockId    String
+  business   Business             @relation(fields: [businessId], references: [id])
+  businessId String
+}
+
+enum StockTransactionType {
+  PURCHASE
+  SOLD
+  ADJUSTMENT
+}
+
+model BEPAnalysis {
+  id             String   @id @default(cuid())
+  fixedCost      Decimal
+  variableCost   Decimal
+  sellingPrice   Decimal
+  breakEvenPoint Decimal
+  dateCalculated DateTime @default(now())
+  business       Business @relation(fields: [businessId], references: [id])
+  businessId     String
+
+  @@map("bep_analyses")
+}
+
+model Monitoring {
+  id          String         @id @default(cuid())
+  period      String
+  type        MonitoringType
+  totalAmount Decimal
+  business    Business       @relation(fields: [businessId], references: [id])
+  businessId  String
+
+  @@map("monitorings")
+}
+
+enum MonitoringType {
+  REVENUE_MONTHLY
+  REVENUE_YEARLY
+  EXPENSE_MONTHLY
+  EXPENSE_YEARLY
+}
+
+model ChangeLog {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String
+  tableName  String
+  recordId   String
+  changeType String
+  changeData Json
+  timestamp  DateTime @default(now())
+
+  @@map("change_logs")
 }

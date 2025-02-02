@@ -10,6 +10,7 @@ import {
 	Title,
 	Tooltip,
 	Legend,
+	ChartOptions,
 } from "chart.js"
 import { Line } from "react-chartjs-2"
 
@@ -52,7 +53,7 @@ const LineChart: React.FC<LineChartProps> = ({
 		],
 	}
 
-	const options: any = {
+	const options: ChartOptions<"line"> = {
 		responsive: true,
 		plugins: {
 			legend: {

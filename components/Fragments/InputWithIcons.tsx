@@ -8,12 +8,10 @@ const InputWithIcons = ({
 	title,
 	type,
 	name,
-	chidren,
 }: {
 	title: string
 	type: string
 	name: string
-	chidren: React.ReactNode
 }) => {
 	return (
 		<div className="flex flex-col space-y-1">

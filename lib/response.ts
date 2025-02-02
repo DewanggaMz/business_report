@@ -3,7 +3,7 @@ export type ApiResponse<T> = {
 	success: boolean
 	message: string
 	data?: T
-	error?: string
+	error?: T
 }
 
 export const successResponse = <T>(
@@ -15,10 +15,10 @@ export const successResponse = <T>(
 	data,
 })
 
-export const errorResponse = (
-	error: string,
+export const errorResponse = <T>(
+	error: T,
 	message = "Error"
-): ApiResponse<null> => ({
+): ApiResponse<T> => ({
 	success: false,
 	message,
 	error,

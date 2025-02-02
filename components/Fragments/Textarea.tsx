@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 
 import { cn } from "@/lib/utils"
 import { Label } from "./Label"
@@ -26,14 +26,17 @@ interface TextareaLabelProps
 	label: string
 }
 
-export const TextareaLabel = React.forwardRef<
-	HTMLTextAreaElement,
-	TextareaLabelProps
->(({ id, label, ...props }, ref) => {
-	return (
-		<div className="flex flex-col space-y-1">
-			<Label htmlFor={id}>{label}</Label>
-			<Textarea id={id} ref={ref} {...props} />
-		</div>
-	)
-})
+const TextareaLabel = React.forwardRef<HTMLTextAreaElement, TextareaLabelProps>(
+	({ id, label, ...props }, ref) => {
+		return (
+			<div className="flex flex-col space-y-1">
+				<Label htmlFor={id}>{label}</Label>
+				<Textarea id={id} ref={ref} {...props} />
+			</div>
+		)
+	}
+)
+
+TextareaLabel.displayName = "TextareaLabel"
+
+export { TextareaLabel }

@@ -1,13 +1,7 @@
 "use client"
 import { cn } from "@/lib/utils"
 import Link, { LinkProps } from "next/link"
-import React, {
-	useState,
-	createContext,
-	useContext,
-	use,
-	useEffect,
-} from "react"
+import React, { useState, createContext, useContext, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { IconMenu2, IconX } from "@tabler/icons-react"
 

@@ -1,5 +1,4 @@
 import { ClassValue, clsx } from "clsx"
-import { NextResponse } from "next/server"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -38,7 +37,7 @@ export const getLast12Months = (currentMonth: number, currentYear: number) => {
 		"Nov",
 		"Des",
 	]
-	let result = []
+	const result = [] as string[]
 
 	for (let i = 0; i < 12; i++) {
 		const monthIndex = (currentMonth - 1 - i + 12) % 12

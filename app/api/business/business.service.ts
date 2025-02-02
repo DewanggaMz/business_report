@@ -1,15 +1,21 @@
 import { prismaClient } from "@/lib/database/prismaClient"
 import { ResponseError } from "@/lib/error/responseError"
 import { successResponse } from "@/lib/response"
-// import { response } from "@/lib/utils"
-import { BusinessValidation } from "@/lib/validation/business.validation"
-import { Validation } from "@/lib/validation/validate"
 import { NextResponse } from "next/server"
 
+type Owners = { owner: string; initialCapital: string }
+type ReqBodyAdd = {
+	name: string
+	address: string
+	description: string
+	creatorId: string
+	owners: Owners[]
+}
+
 export class BusinessService {
-	static async addBusiness({ reqBody }: { reqBody: any }) {
-		reqBody.owners = await Promise.all(
-			reqBody.owners.map(async (owner: any) => {
+	static async addBusiness({ reqBody }: { reqBody: ReqBodyAdd }) {
+		const transformedOwners = await Promise.all(
+			reqBody.owners.map(async (owner: Owners) => {
 				const ownerID = await prismaClient.user.findUnique({
 					where: { email: owner.owner },
 					select: { id: true },
@@ -42,7 +48,7 @@ export class BusinessService {
 				},
 			})
 
-			const ownersData = reqBody.owners.map(
+			const ownersData = transformedOwners.map(
 				(owner: { ownerId: string; initialCapital: string }) => ({
 					businessId: newBusiness.id,
 					userId: owner.ownerId,
@@ -61,6 +67,42 @@ export class BusinessService {
 
 		return NextResponse.json(
 			successResponse(business, "Business added successfully")
+		)
+	}
+
+	static async getBusinesses({ params }) {
+		const reqUserId = params.get("id")
+		console.log({ reqUserId })
+
+		if (!reqUserId) {
+			throw new ResponseError(400, "User ID is required")
+		}
+
+		const businessDb = await prismaClient.businessOwner.findMany({
+			where: {
+				userId: reqUserId,
+			},
+			select: {
+				business: {
+					select: {
+						id: true,
+						name: true,
+						address: true,
+						description: true,
+						owners: {
+							select: {
+								id: true,
+							},
+						},
+					},
+				},
+			},
+		})
+
+		const business = businessDb.map((b) => b.business)
+
+		return NextResponse.json(
+			successResponse(business, "Businesses fetched successfully")
 		)
 	}
 }

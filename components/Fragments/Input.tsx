@@ -2,11 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { Label } from "./Label"
-import type {
-	InputHTMLAttributes,
-	LabelHTMLAttributes,
-	ForwardedRef,
-} from "react"
+import type { InputHTMLAttributes } from "react"
 
 export const Input = React.forwardRef<
 	HTMLInputElement,
